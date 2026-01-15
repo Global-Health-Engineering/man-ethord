@@ -1,0 +1,149 @@
+---
+title: "Exploratory Data Analysis: ETH Board Open Research Data Program"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: show
+    theme: cosmo
+editor_options: 
+  chunk_output_type: console
+---
+
+# Overview
+
+This document presents a comprehensive exploratory data analysis (EDA) of the ETH Board Open Research Data (ORD) Program dataset. The program represents a CHF 15 million ETH domain initiative dedicated to increasing the visibility and impact of research within the scientific community, economy, and society.
+
+## Data Resources in the ethord Package
+
+The `ethord` package contains **11 datasets** organized into three main categories:
+
+### Application-Phase Data (6 datasets)
+
+1. **`application_metadata`** (76 projects × 15 variables)
+   - Core project information: project IDs, categories, titles, abstracts
+   - Main applicant details: institution, function, name, location
+   - Project timeline: start dates, duration (4-36 months)
+   - Budget: total requested amounts (CHF 15,000 - 1,500,000)
+
+2. **`application_budget`** (78 projects × 16 variables)
+   - Detailed budget breakdown by personnel category (senior staff, postdocs, students)
+   - Travel, equipment, and publication fees
+   - Subcontracting costs
+   - Project phase indicator (1 or 2)
+
+3. **`application_ethics`** (76 projects × 25 variables)
+   - 24 binary ethics flags covering:
+     - Human subjects research (embryos, participants, interventions, clinical studies)
+     - Data handling (personal data, export/import, criminal records)
+     - Animal research
+     - International activities and equity considerations
+     - Environmental impact and endangered species
+     - AI ethics considerations
+
+4. **`application_metadata_applicants`** (113 co-applicants × 7 variables)
+   - Co-applicant information by project
+   - Institution, function, names, location
+
+5. **`application_metadata_keywords`** (303 keywords × 3 variables)
+   - Research keywords by project (0-10 keywords per project)
+   - Topics include: Data Processing, Visualization, Machine Learning, FAIR data
+
+6. **`application_metadata_work_packages`** (273 work packages × 4 variables)
+   - Work package identifiers and titles by project
+   - Project structure and planned activities
+
+### Reporting-Phase Data (3 datasets)
+
+7. **`report_metadata`** (63 reports × 10 variables)
+   - Project reporting information
+   - Report type (Final, Intermediate, other)
+   - Reporting periods and project dates
+   - Main applicant details
+
+8. **`report_output`** (1,033 outputs × 6 variables)
+   - Project outputs categorized by type:
+     - Estimated users (quantity: 0-75,000)
+     - Datasets/databases published
+     - Outreach activities
+   - Descriptions and URLs for outputs
+
+9. **`report_metadata_coapplicants`** (132 co-applicants × 6 variables)
+   - Co-applicant contributions in reports
+   - Roles and main tasks
+
+### Mapping Data (1 dataset)
+
+10. **`project_mapping`** (76 projects × 5 variables)
+    - Links project IDs to document paths
+    - Project categories and acronyms
+
+## Project Categories
+
+Three funding categories exist with different budget levels:
+
+- **Contribute**: CHF 30,000 - Small-scale open data projects
+- **Explore**: CHF 150,000 - Medium exploration projects
+- **Establish**: CHF 1,500,000 - Large infrastructure establishment
+
+# Data Preparation
+
+```{r setup}
+#| message: false
+library(ethord)
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(forcats)
+
+# Set default ggplot theme
+theme_set(theme_minimal())
+```
+
+# Reproduction: Projects by Institution and Category
+
+This reproduces the original visualization showing the distribution of funded projects across ETH domain institutions and project categories.
+
+```{r fig-institutions}
+#| fig-width: 10
+#| fig-height: 6
+#| warning: false
+
+application_metadata |>
+  mutate(category = case_when(
+    project_category == "Contribute" ~ "Contribute (30k)",
+    project_category == "Explore" ~ "Explore (150k)",
+    project_category == "Establish" ~ "Establish (1.5m)"
+  )) |>
+  mutate(category = factor(category,
+                           levels = c("Contribute (30k)",
+                                      "Explore (150k)",
+                                      "Establish (1.5m)"))) |>
+  count(main_applicant_institution, category) |>
+  mutate(main_applicant_institution = str_wrap(main_applicant_institution, width = 30)) |>
+  ggplot(aes(x = fct_reorder(main_applicant_institution, n),
+             y = n,
+             fill = category)) +
+  geom_col(position = "dodge") +
+  geom_label(aes(label = n),
+             position = position_dodge(width = 0.9),
+             show.legend = FALSE,
+             color = "white",
+             fontface = "bold",
+             size = 3) +
+  coord_flip() +
+  labs(
+    title = "Open Research Data Program of the ETH Board",
+    subtitle = "Number of funded projects per institution of lead applicant and project category",
+    y = "Number of projects",
+    x = NULL,
+    fill = "Project category:"
+  ) +
+  scale_fill_colorblind() +
+  theme(panel.grid.major.y = element_blank(),
+        axis.text.y = element_text(size = 8))
+```
+
+
