@@ -262,6 +262,7 @@ Data from: @massari_2025
 #| fig-height: 6
 #| warning: false
 
+# Prepare hierarchical budget data
 application_budget_long <- application_budget |>
   select(project_id, !ends_with("total_direct"), -phase, -total_budget_total_costs) |>
   pivot_longer(cols = !project_id, names_to = "budget_item", values_to = "amount") |>
@@ -269,38 +270,115 @@ application_budget_long <- application_budget |>
   mutate(budget_item = str_remove(budget_item, "total_budget_")) |>
   mutate(
     main_category = case_when(
-      str_starts(budget_item, "personnel_") ~ "personnel",
-      str_starts(budget_item, "other_") ~ "other",
-      budget_item == "travel" ~ "travel",
-      budget_item == "equipment" ~ "equipment",
-      budget_item == "subcontracting" ~ "subcontracting",
-      TRUE ~ "other"
+      str_starts(budget_item, "personnel_") ~ "Personnel",
+      str_starts(budget_item, "other_") ~ "Other Costs",
+      budget_item == "travel" ~ "Travel",
+      budget_item == "equipment" ~ "Equipment",
+      budget_item == "subcontracting" ~ "Subcontracting",
+      TRUE ~ "Other Costs"
     ),
-    sub_category = str_remove(budget_item, "^(personnel|other)_")
+    sub_category = str_remove(budget_item, "^(personnel|other)_") |>
+      str_replace_all("_", " ") |>
+      str_to_title()
   )
 
-application_budget_long |> 
+# Create hierarchical stacked bar chart
+application_budget_long |>
   group_by(main_category, sub_category) |>
-  summarise(total = sum(amount)) |>
-  ungroup() |> 
-  mutate(percent = total / sum(total) * 100) |>
-  ggplot(aes(x = fct_reorder(main_category, total), y = total, fill = sub_category)) +
+  summarise(total = sum(amount), .groups = "drop") |>
+  ggplot(aes(x = fct_reorder(main_category, total, .fun = sum),
+             y = total,
+             fill = sub_category)) +
   geom_col() +
-  geom_text(aes(label = scales::comma(total, prefix = "CHF ", accuracy = 1)),
-            hjust = -0.1,
-            size = 3.5) +
+  geom_text(
+    data = ~group_by(.x, main_category) |>
+      summarise(total = sum(total), .groups = "drop"),
+    aes(x = main_category, y = total, label = scales::comma(total, prefix = "CHF ", accuracy = 1)),
+    inherit.aes = FALSE,
+    hjust = -0.1,
+    size = 3.5,
+    fontface = "bold"
+  ) +
   coord_flip() +
   labs(
-    title = "Budget Distribution by Main Category",
-    subtitle = "Total budget allocation across all funded projects",
+    title = "Budget Distribution by Category and Subcategory",
+    subtitle = "Hierarchical breakdown of total budget allocation",
     x = NULL,
-    y = "Total Budget (CHF)"
+    y = "Total Budget (CHF)",
+    fill = "Subcategory"
   ) +
-  scale_y_continuous(labels = scales::comma) +
+  scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.15))) +
   scale_fill_colorblind() +
   theme_minimal(base_size = 10) +
-  theme(legend.position = "none",
-        panel.grid.major.y = element_blank())
+  theme(panel.grid.major.y = element_blank(),
+        legend.position = "right",
+        legend.text = element_text(size = 7))
+```
+
+::: footer
+Data from: @massari_2025
+:::
+
+## Budget Summary Table {.center .smallest}
+
+```{r}
+TODO: Add a plot using treemap package, see good example here: https://r-graph-gallery.com/web-treemap-with-annotations-labels-and-colors.html
+```
+
+
+```{r}
+
+TODO: Add totals for each sub-category and overall
+# Create detailed budget table with grouping
+application_budget_long |>
+  group_by(main_category, sub_category) |>
+  summarise(total_chf = sum(amount), .groups = "drop") |>
+  group_by(main_category) |>
+  mutate(
+    category_total = sum(total_chf),
+    percent_of_category = total_chf / category_total * 100,
+    percent_of_total = total_chf / sum(application_budget_long$amount, na.rm = TRUE) * 100
+  ) |>
+  ungroup() |>
+  arrange(desc(category_total), desc(total_chf)) |>
+  gt(groupname_col = "main_category") |>
+  tab_header(
+    title = "Detailed Budget Breakdown",
+    subtitle = "All funded projects by category and subcategory"
+  ) |>
+  cols_label(
+    sub_category = "Subcategory",
+    total_chf = "Amount (CHF)",
+    category_total = "Category Total",
+    percent_of_category = "% of Category",
+    percent_of_total = "% of Total Budget"
+  ) |>
+  fmt_number(
+    columns = c(total_chf, category_total),
+    decimals = 0,
+    use_seps = TRUE
+  ) |>
+  fmt_percent(
+    columns = c(percent_of_category, percent_of_total),
+    decimals = 1,
+    scale_values = FALSE
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_row_groups()
+  ) |>
+  tab_style(
+    style = cell_fill(color = "gray95"),
+    locations = cells_body(columns = everything(), rows = percent_of_category > 50)
+  ) |>
+  tab_options(
+    table.font.size = px(11),
+    heading.title.font.size = px(16),
+    heading.subtitle.font.size = px(12),
+    row_group.background.color = "lightblue",
+    row_group.font.weight = "bold"
+  ) |>
+  cols_hide(columns = category_total)
 ```
 
 ::: footer
