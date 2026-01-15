@@ -319,47 +319,97 @@ application_budget_long |>
 Data from: @massari_2025
 :::
 
+## Budget Treemap {.center}
+
+```{r}
+#| fig-width: 10
+#| fig-height: 6
+#| warning: false
+
+library(treemap)
+
+# Prepare data for treemap
+treemap_data <- application_budget_long |>
+  group_by(main_category, sub_category) |>
+  summarise(total = sum(amount), .groups = "drop") |>
+  mutate(
+    label = str_glue("{sub_category}\nCHF {scales::comma(total, accuracy = 1)}")
+  )
+
+# Create treemap with annotations
+treemap(
+  treemap_data,
+  index = c("main_category", "sub_category"),
+  vSize = "total",
+  vColor = "main_category",
+  type = "categorical",
+  palette = "Set2",
+  title = "Budget Distribution Treemap",
+  fontsize.labels = c(14, 10),
+  fontcolor.labels = c("white", "black"),
+  fontface.labels = c(2, 1),
+  bg.labels = c("transparent"),
+  align.labels = list(c("center", "center"), c("center", "center")),
+  overlap.labels = 0.5,
+  border.col = c("white", "gray90"),
+  border.lwds = c(4, 2)
+)
+```
+
+::: footer
+Data from: @massari_2025
+:::
+
 ## Budget Summary Table {.center .smallest}
 
 ```{r}
-TODO: Add a plot using treemap package, see good example here: https://r-graph-gallery.com/web-treemap-with-annotations-labels-and-colors.html
-```
-
-
-```{r}
-
-TODO: Add totals for each sub-category and overall
-# Create detailed budget table with grouping
-application_budget_long |>
+# Create detailed budget table with grouping and totals
+budget_table_data <- application_budget_long |>
   group_by(main_category, sub_category) |>
   summarise(total_chf = sum(amount), .groups = "drop") |>
   group_by(main_category) |>
   mutate(
     category_total = sum(total_chf),
-    percent_of_category = total_chf / category_total * 100,
-    percent_of_total = total_chf / sum(application_budget_long$amount, na.rm = TRUE) * 100
+    percent_of_category = total_chf / category_total * 100
   ) |>
   ungroup() |>
-  arrange(desc(category_total), desc(total_chf)) |>
+  arrange(desc(category_total), desc(total_chf))
+
+budget_table_data |>
   gt(groupname_col = "main_category") |>
   tab_header(
     title = "Detailed Budget Breakdown",
-    subtitle = "All funded projects by category and subcategory"
+    subtitle = "Data of 78/95 projects"
   ) |>
   cols_label(
     sub_category = "Subcategory",
     total_chf = "Amount (CHF)",
-    category_total = "Category Total",
-    percent_of_category = "% of Category",
-    percent_of_total = "% of Total Budget"
+    percent_of_category = "% of Category"
+  ) |>
+  # Add summary rows for each group
+  summary_rows(
+    groups = everything(),
+    columns = total_chf,
+    fns = list(
+      "Category Total" = ~sum(., na.rm = TRUE)
+    ),
+    fmt = ~fmt_number(., decimals = 0, use_seps = TRUE)
+  ) |>
+  # Add grand total row
+  grand_summary_rows(
+    columns = total_chf,
+    fns = list(
+      "Grand Total" = ~sum(., na.rm = TRUE)
+    ),
+    fmt = ~fmt_number(., decimals = 0, use_seps = TRUE)
   ) |>
   fmt_number(
-    columns = c(total_chf, category_total),
+    columns = total_chf,
     decimals = 0,
     use_seps = TRUE
   ) |>
   fmt_percent(
-    columns = c(percent_of_category, percent_of_total),
+    columns = percent_of_category,
     decimals = 1,
     scale_values = FALSE
   ) |>
@@ -371,12 +421,27 @@ application_budget_long |>
     style = cell_fill(color = "gray95"),
     locations = cells_body(columns = everything(), rows = percent_of_category > 50)
   ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightblue"),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_summary()
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "steelblue"),
+      cell_text(weight = "bold", color = "white")
+    ),
+    locations = cells_grand_summary()
+  ) |>
   tab_options(
     table.font.size = px(11),
     heading.title.font.size = px(16),
     heading.subtitle.font.size = px(12),
     row_group.background.color = "lightblue",
-    row_group.font.weight = "bold"
+    row_group.font.weight = "bold",
+    summary_row.background.color = "lightblue"
   ) |>
   cols_hide(columns = category_total)
 ```
