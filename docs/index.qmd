@@ -1,0 +1,526 @@
+---
+title: "ethord"
+subtitle: |
+  Publishing Open Metadata for Open Research Data Projects of the ETH Domain
+author:
+  - name: Lars Schöbitz
+    orcid: 0000-0003-2196-5015
+    affiliations:
+        - ref: ghe
+  - name: Nicoló Massari
+    orcid: 0009-0006-8421-930X
+    affiliations:
+        - ref: ghe
+  - name: Prof. Elizabeth Tilley
+    orcid: 0000-0002-2095-9724
+    affiliations:
+        - ref: ghe
+affiliations:
+  - id: ghe
+    name: Global Health Engineering - ETH Zurich
+    url: https://ghe.ethz.ch/
+date: today
+date-format: long
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-summary: "Show code"
+    number-sections: true
+editor: source
+editor_options:
+  chunk_output_type: console
+execute:
+  freeze: auto
+  warning: false
+bibliography: ["../analysis/soad-references.bib"]
+---
+
+```{r}
+# Load required packages for data analysis with ethord R data package
+library(ggthemes)
+library(tidyverse)
+library(ggtext)
+library(gt)
+library(ethord)
+```
+
+# Introduction
+
+## ETH Domain Open Research Data (ORD) Program
+
+The ETH Domain Open Research Data (ORD) Program represents a significant investment in advancing open research practices across Swiss federal institutions. This report provides a draft analysis of data extracted from 76 out 96 funded projects, focusing on the program's structure, budget distribution, and metadata accessibility.
+
+## Measure 1: Calls for Field Specific Actions
+
+The primary goal of the measure is to support ETH researchers to engage in, and develop ORD practices and to become ORD leaders in their fields.
+
+The program has funded **96 projects** with a total investment of **15 million CHF**.
+
+# Metadata Infrastructure
+
+## The ORD Portal
+
+The ETH Domain maintains an ORD portal that showcases funded projects. While the portal provides basic information, there are significant opportunities for improvement in data accessibility and structured metadata provision.
+
+![ETH Domain ORD Portal](img/soad/ord-portal.png){width="80%"}
+
+### Current Portal Limitations
+
+The current portal has several limitations:
+
+- Portal shows titles, abstracts, institutions, applicant names
+- No structured bulk data or programmatic access
+- Limited visibility of reports and outputs
+- No systematic tracking of project outcomes
+
+![Portal highlights showing basic metadata](img/soad/ord-portal-highlights.png){width="60%"}
+
+## Distribution of Projects Across Institutions
+
+The following visualization shows how projects are distributed across institutions and project categories.
+
+```{r}
+#| label: fig-project-distribution
+#| fig-cap: "Number of funded projects per institution of lead applicant and project category"
+#| fig-width: 10
+#| fig-height: 5
+
+application_metadata |>
+  mutate(category = case_when(
+    project_category == "Contribute" ~ "Contribute (30k)",
+    project_category == "Explore" ~ "Explore (150k)",
+    project_category == "Establish" ~ "Establish (1.5m)"
+  )) |>
+  mutate(category = factor(category,
+                           levels = c("Contribute (30k)",
+                                      "Explore (150k)",
+                                      "Establish (1.5m)"))) |>
+  count(main_applicant_institution, category) |>
+  mutate(main_applicant_institution = str_wrap(main_applicant_institution, width = 30)) |>
+  ggplot(aes(x = fct_reorder(main_applicant_institution, n),
+             y = n,
+             fill = category)) +
+  geom_col(position = "dodge") +
+  geom_label(aes(label = n),
+             position = position_dodge(width = 0.9),
+             show.legend = FALSE,
+             color = "white",
+             fontface = "bold",
+             size = 3) +
+  coord_flip() +
+  labs(
+    title = "Open Research Data Program of the ETH Board",
+    subtitle = "Number of funded projects per institution of lead applicant and project category",
+    y = "Number of projects",
+    x = NULL,
+    fill = "Project category:"
+  ) +
+  scale_fill_colorblind() +
+  theme_minimal(base_size = 10) +
+  theme(panel.grid.major.y = element_blank(),
+        axis.text.y = element_text(size = 8))
+```
+
+*Data from: @massari_2025*
+
+# Non-Public Metadata Challenges
+
+## Information Gap
+
+While proposals, scientific reports, and lists of outputs contain valuable information, this data is not publicly available as open, structured, machine-readable data. This creates several challenges:
+
+### Key Questions We Cannot Answer
+
+Without structured metadata, we cannot easily answer questions such as:
+
+- How were budgets distributed among their cost categories?
+- How many publications are derived from these projects?
+- How many ORD datasets have been published?
+
+### Limitations and Consequences
+
+The primary limitations stem from confidentiality requirements:
+
+- Proposals, scientific reports, and lists of outputs are confidential
+- Only available to EPFL Research Office
+- Protected as intellectual property by researchers
+
+This has several consequences:
+
+- Limits discoverability and impact assessment
+- Reviewers have privileged access while public cannot evaluate program effectiveness
+- Contradicts goal of helping researchers become ORD leaders
+
+### The Solution
+
+Our approach to addressing these challenges:
+
+- Ask all applicants for permission to extract metadata from project documentation
+- Apply FAIR data sharing principles that we advocate for
+- Publish FAIR-compliant, DOI-assigned metadata dataset
+
+# The ethord R Data Package
+
+## Overview
+
+The **ethord** R data package provides structured, open access to metadata from the ETH Domain ORD Program.
+
+**Package details:**
+
+- Website: <https://global-health-engineering.github.io/ethord/> [@massari_2025]
+- 9 datasets covering application and reporting phases
+- Open source development (GitHub)
+- Permissive license (CC-BY)
+- Assigned DOI (Zenodo)
+
+## Current Status
+
+### Data extraction 
+
+- Code was developed to extract data from PDFs
+- Extraction of metadata into .json files to .csv files
+- Support of LLMs in the extraction process
+
+### Reproducibilty
+
+- Generate data may not be 100% reproducible
+- In the process of rerunning scripts to evaluate differences
+- Working through data quality checks to identify issues
+
+### Continued Development
+
+- The data package is still work in progress
+- Data can be used, but with caution and disclaimers about current status
+- Future updates will improve data quality and completeness, as all reports are submitted
+
+## Available Datasets
+
+### Application Phase Datasets (6 datasets)
+
+- `application_metadata` - Core project info, timeline, budget
+- `application_budget` - Detailed budget breakdown by category
+- `application_ethics` - Ethics considerations and flags
+- `application_metadata_applicants` - Co-applicant information
+- `application_metadata_keywords` - Research keywords
+- `application_metadata_work_packages` - Work package structure
+
+### Reporting Phase Datasets (3 datasets)
+
+- `report_metadata` - Project reports and updates
+- `report_output` - Project outputs and user reach
+- `report_metadata_coapplicants` - Co-applicant contributions
+
+
+
+
+
+# Budget Analysis
+
+## Budget Distribution by Cost Category
+
+How is the budget distributed across different cost categories? We can answer this question using the structured metadata in the ethord package.
+
+```{r}
+#| label: tbl-budget-summary
+#| tbl-cap: "ORD Program Budget Distribution by Cost Category"
+#| echo: true
+
+# Calculate total budgets by category
+budget_summary <- application_budget |>
+  summarise(
+    Personnel = sum(total_budget_personnel_total_direct, na.rm = TRUE),
+    Travel = sum(total_budget_travel, na.rm = TRUE),
+    Equipment = sum(total_budget_equipment, na.rm = TRUE),
+    `Other Direct` = sum(total_budget_other_total_direct, na.rm = TRUE),
+    Subcontracting = sum(total_budget_subcontracting, na.rm = TRUE)
+  ) |>
+  pivot_longer(cols = everything(),
+               names_to = "cost_category",
+               values_to = "total_chf") |>
+  filter(total_chf > 0) |>
+  mutate(percent = total_chf / sum(total_chf) * 100) |>
+  arrange(desc(total_chf))
+
+# Display as formatted table
+budget_summary |>
+  gt() |>
+  tab_header(
+    title = "ORD Program Budget Distribution",
+    subtitle = str_glue("Cost breakdown across {nrow(application_budget)} funded projects")
+  ) |>
+  cols_label(
+    cost_category = "Cost Category",
+    total_chf = "Total (CHF)",
+    percent = "Percentage"
+  ) |>
+  fmt_number(
+    columns = total_chf,
+    decimals = 0,
+    use_seps = TRUE
+  ) |>
+  fmt_percent(
+    columns = percent,
+    decimals = 1,
+    scale_values = FALSE
+  ) |>
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels()
+  ) |>
+  tab_options(
+    table.font.size = px(14),
+    heading.title.font.size = px(18),
+    heading.subtitle.font.size = px(14)
+  )
+```
+
+*Data from: @massari_2025*
+
+## Hierarchical Budget Breakdown
+
+The following visualization shows a more detailed hierarchical breakdown of budget allocation across categories and subcategories.
+
+```{r}
+#| label: fig-budget-hierarchy
+#| fig-cap: "Budget Distribution by Category and Subcategory"
+#| fig-width: 10
+#| fig-height: 6
+
+# Prepare hierarchical budget data
+application_budget_long <- application_budget |>
+  select(project_id, !ends_with("total_direct"), -phase, -total_budget_total_costs) |>
+  pivot_longer(cols = !project_id, names_to = "budget_item", values_to = "amount") |>
+  filter(!is.na(amount), amount > 0) |>
+  mutate(budget_item = str_remove(budget_item, "total_budget_")) |>
+  mutate(
+    main_category = case_when(
+      str_starts(budget_item, "personnel_") ~ "Personnel",
+      str_starts(budget_item, "other_") ~ "Other Costs",
+      budget_item == "travel" ~ "Travel",
+      budget_item == "equipment" ~ "Equipment",
+      budget_item == "subcontracting" ~ "Subcontracting",
+      TRUE ~ "Other Costs"
+    ),
+    sub_category = str_remove(budget_item, "^(personnel|other)_") |>
+      str_replace_all("_", " ") |>
+      str_to_title()
+  )
+
+# Create hierarchical stacked bar chart
+application_budget_long |>
+  group_by(main_category, sub_category) |>
+  summarise(total = sum(amount), .groups = "drop") |>
+  ggplot(aes(x = fct_reorder(main_category, total, .fun = sum),
+             y = total,
+             fill = sub_category)) +
+  geom_col() +
+  geom_text(
+    data = ~group_by(.x, main_category) |>
+      summarise(total = sum(total), .groups = "drop"),
+    aes(x = main_category, y = total, label = scales::comma(total, prefix = "CHF ", accuracy = 1)),
+    inherit.aes = FALSE,
+    hjust = -0.1,
+    size = 3.5,
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  labs(
+    title = "Budget Distribution by Category and Subcategory",
+    subtitle = "Hierarchical breakdown of total budget allocation",
+    x = NULL,
+    y = "Total Budget (CHF)",
+    fill = "Subcategory"
+  ) +
+  scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.15))) +
+  scale_fill_colorblind() +
+  theme_minimal(base_size = 10) +
+  theme(panel.grid.major.y = element_blank(),
+        legend.position = "right",
+        legend.text = element_text(size = 7))
+```
+
+*Data from: @massari_2025*
+
+## Budget Treemap Visualization
+
+A treemap provides an alternative view of the budget distribution, with area proportional to spending.
+
+```{r}
+#| label: fig-budget-treemap
+#| fig-cap: "Budget Distribution Treemap"
+#| fig-width: 10
+#| fig-height: 6
+
+library(treemap)
+
+# Prepare data for treemap
+treemap_data <- application_budget_long |>
+  group_by(main_category, sub_category) |>
+  summarise(total = sum(amount), .groups = "drop") |>
+  mutate(
+    label = str_glue("{sub_category}\nCHF {scales::comma(total, accuracy = 1)}")
+  )
+
+# Create treemap with annotations
+treemap(
+  treemap_data,
+  index = c("main_category", "sub_category"),
+  vSize = "total",
+  vColor = "main_category",
+  type = "categorical",
+  palette = "Set2",
+  title = "Budget Distribution Treemap",
+  fontsize.labels = c(14, 10),
+  fontcolor.labels = c("white", "black"),
+  fontface.labels = c(2, 1),
+  bg.labels = c("transparent"),
+  align.labels = list(c("center", "center"), c("center", "center")),
+  overlap.labels = 0.5,
+  border.col = c("white", "gray90"),
+  border.lwds = c(4, 2)
+)
+```
+
+*Data from: @massari_2025*
+
+## Detailed Budget Summary Table
+
+```{r}
+#| label: tbl-detailed-budget
+#| tbl-cap: "Detailed Budget Breakdown by Category and Subcategory"
+
+# Create detailed budget table with grouping and totals
+budget_table_data <- application_budget_long |>
+  group_by(main_category, sub_category) |>
+  summarise(total_chf = sum(amount), .groups = "drop") |>
+  group_by(main_category) |>
+  mutate(
+    category_total = sum(total_chf),
+    percent_of_category = total_chf / category_total * 100
+  ) |>
+  ungroup() |>
+  arrange(desc(category_total), desc(total_chf))
+
+budget_table_data |>
+  gt(groupname_col = "main_category") |>
+  tab_header(
+    title = "Detailed Budget Breakdown",
+    subtitle = "Data of 78/95 projects"
+  ) |>
+  cols_label(
+    sub_category = "Subcategory",
+    total_chf = "Amount (CHF)",
+    percent_of_category = "% of Category"
+  ) |>
+  # Add summary rows for each group
+  summary_rows(
+    groups = everything(),
+    columns = total_chf,
+    fns = list(
+      "Category Total" = ~sum(., na.rm = TRUE)
+    ),
+    fmt = ~fmt_number(., decimals = 0, use_seps = TRUE)
+  ) |>
+  # Add grand total row
+  grand_summary_rows(
+    columns = total_chf,
+    fns = list(
+      "Grand Total" = ~sum(., na.rm = TRUE)
+    ),
+    fmt = ~fmt_number(., decimals = 0, use_seps = TRUE)
+  ) |>
+  fmt_number(
+    columns = total_chf,
+    decimals = 0,
+    use_seps = TRUE
+  ) |>
+  fmt_percent(
+    columns = percent_of_category,
+    decimals = 1,
+    scale_values = FALSE
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_row_groups()
+  ) |>
+  tab_style(
+    style = cell_fill(color = "gray95"),
+    locations = cells_body(columns = everything(), rows = percent_of_category > 50)
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightblue"),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_summary()
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "steelblue"),
+      cell_text(weight = "bold", color = "white")
+    ),
+    locations = cells_grand_summary()
+  ) |>
+  tab_options(
+    table.font.size = px(11),
+    heading.title.font.size = px(16),
+    heading.subtitle.font.size = px(12),
+    row_group.background.color = "lightblue",
+    row_group.font.weight = "bold",
+    summary_row.background.color = "lightblue"
+  ) |>
+  cols_hide(columns = category_total)
+```
+
+*Data from: @massari_2025*
+
+# The ethord Package Website
+
+The ethord package has a comprehensive website with documentation, vignettes, and examples.
+
+**Visit the package website:** [global-health-engineering.github.io/ethord/](https://global-health-engineering.github.io/ethord/)
+
+# Future Possibilities
+
+## Making Administrative Data "Open by Default"
+
+How could we make such administrative data "open by default" in the future?
+
+## Swiss Open by Default Policy Framework
+
+Switzerland has established a comprehensive framework for open data publication:
+
+**Federal Foundation**: Open Government Data Strategy 2019-2023 [@swiss_ogd_strategy_2019] established "open by default" principle for all federal agencies.
+
+**Legal Mandate**: Federal Act EMBAG Article 10 [@embag_2024] legally requires open data publication unless restricted by privacy or security.
+
+**Implementation**: OGD Masterplan 2024-2027 [@ogd_masterplan_2024] operationalizes through:
+
+- Progressive data opening with documented exceptions
+- Quality standards aligned with FAIR principles [@fair_principles]
+- Centralized coordination via opendata.swiss [@opendata_swiss]
+- Standardized metadata using DCAT-AP CH [@dcat_ap_ch]
+
+Switzerland is unique in having legally mandated open by default - not just policy recommendations. This creates accountability and consistency across agencies. The FAIR alignment shows how government OGD principles directly apply to research data contexts.
+
+# Conclusion
+
+The ethord package demonstrates how structured, open metadata can enhance transparency and enable deeper analysis of research funding programs. By applying FAIR principles to administrative data, we create opportunities for better understanding program outcomes and researcher engagement with open research data practices.
+
+## Data Availability
+
+All data and analyses presented in this report are available through the ethord R package [@massari_2025]:
+
+- Website: <https://global-health-engineering.github.io/ethord/>
+- GitHub: <https://github.com/global-health-engineering/ethord>
+- DOI: Available via Zenodo
+
+# References
+
+::: {#refs}
+:::

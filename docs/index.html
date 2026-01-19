@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lars Schöbitz">
+<meta name="author" content="Nicoló Massari">
+<meta name="author" content="Prof.&nbsp;Elizabeth Tilley">
+<meta name="dcterms.date" content="2026-01-19">
+
+<title>ethord</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="index_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="index_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap-a74871fe4945b66d259aafc266475145.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
+  <ul class="collapse">
+  <li><a href="#eth-domain-open-research-data-ord-program" id="toc-eth-domain-open-research-data-ord-program" class="nav-link" data-scroll-target="#eth-domain-open-research-data-ord-program"><span class="header-section-number">1.1</span> ETH Domain Open Research Data (ORD) Program</a></li>
+  <li><a href="#measure-1-calls-for-field-specific-actions" id="toc-measure-1-calls-for-field-specific-actions" class="nav-link" data-scroll-target="#measure-1-calls-for-field-specific-actions"><span class="header-section-number">1.2</span> Measure 1: Calls for Field Specific Actions</a></li>
+  </ul></li>
+  <li><a href="#metadata-infrastructure" id="toc-metadata-infrastructure" class="nav-link" data-scroll-target="#metadata-infrastructure"><span class="header-section-number">2</span> Metadata Infrastructure</a>
+  <ul class="collapse">
+  <li><a href="#the-ord-portal" id="toc-the-ord-portal" class="nav-link" data-scroll-target="#the-ord-portal"><span class="header-section-number">2.1</span> The ORD Portal</a>
+  <ul class="collapse">
+  <li><a href="#current-portal-limitations" id="toc-current-portal-limitations" class="nav-link" data-scroll-target="#current-portal-limitations"><span class="header-section-number">2.1.1</span> Current Portal Limitations</a></li>
+  </ul></li>
+  <li><a href="#distribution-of-projects-across-institutions" id="toc-distribution-of-projects-across-institutions" class="nav-link" data-scroll-target="#distribution-of-projects-across-institutions"><span class="header-section-number">2.2</span> Distribution of Projects Across Institutions</a></li>
+  </ul></li>
+  <li><a href="#non-public-metadata-challenges" id="toc-non-public-metadata-challenges" class="nav-link" data-scroll-target="#non-public-metadata-challenges"><span class="header-section-number">3</span> Non-Public Metadata Challenges</a>
+  <ul class="collapse">
+  <li><a href="#information-gap" id="toc-information-gap" class="nav-link" data-scroll-target="#information-gap"><span class="header-section-number">3.1</span> Information Gap</a>
+  <ul class="collapse">
+  <li><a href="#key-questions-we-cannot-answer" id="toc-key-questions-we-cannot-answer" class="nav-link" data-scroll-target="#key-questions-we-cannot-answer"><span class="header-section-number">3.1.1</span> Key Questions We Cannot Answer</a></li>
+  <li><a href="#limitations-and-consequences" id="toc-limitations-and-consequences" class="nav-link" data-scroll-target="#limitations-and-consequences"><span class="header-section-number">3.1.2</span> Limitations and Consequences</a></li>
+  <li><a href="#the-solution" id="toc-the-solution" class="nav-link" data-scroll-target="#the-solution"><span class="header-section-number">3.1.3</span> The Solution</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#the-ethord-r-data-package" id="toc-the-ethord-r-data-package" class="nav-link" data-scroll-target="#the-ethord-r-data-package"><span class="header-section-number">4</span> The ethord R Data Package</a>
+  <ul class="collapse">
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">4.1</span> Overview</a></li>
+  <li><a href="#available-datasets" id="toc-available-datasets" class="nav-link" data-scroll-target="#available-datasets"><span class="header-section-number">4.2</span> Available Datasets</a>
+  <ul class="collapse">
+  <li><a href="#application-phase-datasets-6-datasets" id="toc-application-phase-datasets-6-datasets" class="nav-link" data-scroll-target="#application-phase-datasets-6-datasets"><span class="header-section-number">4.2.1</span> Application Phase Datasets (6 datasets)</a></li>
+  <li><a href="#reporting-phase-datasets-3-datasets" id="toc-reporting-phase-datasets-3-datasets" class="nav-link" data-scroll-target="#reporting-phase-datasets-3-datasets"><span class="header-section-number">4.2.2</span> Reporting Phase Datasets (3 datasets)</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#budget-analysis" id="toc-budget-analysis" class="nav-link" data-scroll-target="#budget-analysis"><span class="header-section-number">5</span> Budget Analysis</a>
+  <ul class="collapse">
+  <li><a href="#budget-distribution-by-cost-category" id="toc-budget-distribution-by-cost-category" class="nav-link" data-scroll-target="#budget-distribution-by-cost-category"><span class="header-section-number">5.1</span> Budget Distribution by Cost Category</a></li>
+  <li><a href="#hierarchical-budget-breakdown" id="toc-hierarchical-budget-breakdown" class="nav-link" data-scroll-target="#hierarchical-budget-breakdown"><span class="header-section-number">5.2</span> Hierarchical Budget Breakdown</a></li>
+  <li><a href="#budget-treemap-visualization" id="toc-budget-treemap-visualization" class="nav-link" data-scroll-target="#budget-treemap-visualization"><span class="header-section-number">5.3</span> Budget Treemap Visualization</a></li>
+  <li><a href="#detailed-budget-summary-table" id="toc-detailed-budget-summary-table" class="nav-link" data-scroll-target="#detailed-budget-summary-table"><span class="header-section-number">5.4</span> Detailed Budget Summary Table</a></li>
+  </ul></li>
+  <li><a href="#the-ethord-package-website" id="toc-the-ethord-package-website" class="nav-link" data-scroll-target="#the-ethord-package-website"><span class="header-section-number">6</span> The ethord Package Website</a></li>
+  <li><a href="#future-possibilities" id="toc-future-possibilities" class="nav-link" data-scroll-target="#future-possibilities"><span class="header-section-number">7</span> Future Possibilities</a>
+  <ul class="collapse">
+  <li><a href="#making-administrative-data-open-by-default" id="toc-making-administrative-data-open-by-default" class="nav-link" data-scroll-target="#making-administrative-data-open-by-default"><span class="header-section-number">7.1</span> Making Administrative Data “Open by Default”</a></li>
+  <li><a href="#swiss-open-by-default-policy-framework" id="toc-swiss-open-by-default-policy-framework" class="nav-link" data-scroll-target="#swiss-open-by-default-policy-framework"><span class="header-section-number">7.2</span> Swiss Open by Default Policy Framework</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">8</span> Conclusion</a>
+  <ul class="collapse">
+  <li><a href="#data-availability" id="toc-data-availability" class="nav-link" data-scroll-target="#data-availability"><span class="header-section-number">8.1</span> Data Availability</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9</span> References</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ethord</h1>
+<p class="subtitle lead"></p><p>Publishing Open Metadata for Open Research Data Projects of the ETH Domain</p><p></p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Lars Schöbitz <a href="https://orcid.org/0000-0003-2196-5015" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://ghe.ethz.ch/">
+            Global Health Engineering - ETH Zurich
+            </a>
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Nicoló Massari <a href="https://orcid.org/0009-0006-8421-930X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://ghe.ethz.ch/">
+            Global Health Engineering - ETH Zurich
+            </a>
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Prof.&nbsp;Elizabeth Tilley <a href="https://orcid.org/0000-0002-2095-9724" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://ghe.ethz.ch/">
+            Global Health Engineering - ETH Zurich
+            </a>
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 19, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required packages for data analysis with ethord R data package</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtext)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ethord)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<section id="eth-domain-open-research-data-ord-program" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="eth-domain-open-research-data-ord-program"><span class="header-section-number">1.1</span> ETH Domain Open Research Data (ORD) Program</h2>
+<p>The ETH Domain Open Research Data (ORD) Program represents a significant investment in advancing open research practices across Swiss federal institutions. This report provides a draft analysis of data extracted from 76 out 96 funded projects, focusing on the program’s structure, budget distribution, and metadata accessibility.</p>
+</section>
+<section id="measure-1-calls-for-field-specific-actions" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="measure-1-calls-for-field-specific-actions"><span class="header-section-number">1.2</span> Measure 1: Calls for Field Specific Actions</h2>
+<p>The primary goal of the measure is to support ETH researchers to engage in, and develop ORD practices and to become ORD leaders in their fields.</p>
+<p>The program has funded <strong>96 projects</strong> with a total investment of <strong>15 million CHF</strong>.</p>
+</section>
+</section>
+<section id="metadata-infrastructure" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Metadata Infrastructure</h1>
+<section id="the-ord-portal" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="the-ord-portal"><span class="header-section-number">2.1</span> The ORD Portal</h2>
+<p>The ETH Domain maintains an ORD portal that showcases funded projects. While the portal provides basic information, there are significant opportunities for improvement in data accessibility and structured metadata provision.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/soad/ord-portal.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>ETH Domain ORD Portal</figcaption>
+</figure>
+</div>
+<section id="current-portal-limitations" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="current-portal-limitations"><span class="header-section-number">2.1.1</span> Current Portal Limitations</h3>
+<p>The current portal has several limitations:</p>
+<ul>
+<li>Portal shows titles, abstracts, institutions, applicant names</li>
+<li>No structured bulk data or programmatic access</li>
+<li>Limited visibility of reports and outputs</li>
+<li>No systematic tracking of project outcomes</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/soad/ord-portal-highlights.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption>Portal highlights showing basic metadata</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="distribution-of-projects-across-institutions" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="distribution-of-projects-across-institutions"><span class="header-section-number">2.2</span> Distribution of Projects Across Institutions</h2>
+<p>The following visualization shows how projects are distributed across institutions and project categories.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>application_metadata <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    project_category <span class="sc">==</span> <span class="st">"Contribute"</span> <span class="sc">~</span> <span class="st">"Contribute (30k)"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    project_category <span class="sc">==</span> <span class="st">"Explore"</span> <span class="sc">~</span> <span class="st">"Explore (150k)"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    project_category <span class="sc">==</span> <span class="st">"Establish"</span> <span class="sc">~</span> <span class="st">"Establish (1.5m)"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">category =</span> <span class="fu">factor</span>(category,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Contribute (30k)"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Explore (150k)"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Establish (1.5m)"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(main_applicant_institution, category) <span class="sc">|&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">main_applicant_institution =</span> <span class="fu">str_wrap</span>(main_applicant_institution, <span class="at">width =</span> <span class="dv">30</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(main_applicant_institution, n),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> n,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> category)) <span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> n),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.9</span>),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">show.legend =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">fontface =</span> <span class="st">"bold"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Open Research Data Program of the ETH Board"</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Number of funded projects per institution of lead applicant and project category"</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of projects"</span>,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Project category:"</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_colorblind</span>() <span class="sc">+</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-project-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-project-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-project-distribution-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-project-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Number of funded projects per institution of lead applicant and project category
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Data from: <span class="citation" data-cites="massari_2025">Massari, Schöbitz, and Tilley (<a href="#ref-massari_2025" role="doc-biblioref">2025</a>)</span></em></p>
+</section>
+</section>
+<section id="non-public-metadata-challenges" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Non-Public Metadata Challenges</h1>
+<section id="information-gap" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="information-gap"><span class="header-section-number">3.1</span> Information Gap</h2>
+<p>While proposals, scientific reports, and lists of outputs contain valuable information, this data is not publicly available as open, structured, machine-readable data. This creates several challenges:</p>
+<section id="key-questions-we-cannot-answer" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="key-questions-we-cannot-answer"><span class="header-section-number">3.1.1</span> Key Questions We Cannot Answer</h3>
+<p>Without structured metadata, we cannot easily answer questions such as:</p>
+<ul>
+<li>What is their scientific role (e.g.&nbsp;Professor, Post Doc, PhD, etc.)?</li>
+<li>How were budgets distributed among their cost categories?</li>
+<li>How many publications are derived from these projects?</li>
+<li>How many ORD datasets have been published?</li>
+</ul>
+</section>
+<section id="limitations-and-consequences" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="limitations-and-consequences"><span class="header-section-number">3.1.2</span> Limitations and Consequences</h3>
+<p>The primary limitations stem from confidentiality requirements:</p>
+<ul>
+<li>Proposals, scientific reports, and lists of outputs are confidential</li>
+<li>Only available to EPFL Research Office</li>
+<li>Protected as intellectual property by researchers</li>
+</ul>
+<p>This has several consequences:</p>
+<ul>
+<li>Limits discoverability and impact assessment</li>
+<li>Reviewers have privileged access while public cannot evaluate program effectiveness</li>
+<li>Contradicts goal of helping researchers become ORD leaders</li>
+</ul>
+</section>
+<section id="the-solution" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="the-solution"><span class="header-section-number">3.1.3</span> The Solution</h3>
+<p>Our approach to addressing these challenges:</p>
+<ul>
+<li>Ask all applicants for permission to extract metadata from project documentation</li>
+<li>Apply FAIR data sharing principles that we advocate for</li>
+<li>Publish FAIR-compliant, DOI-assigned metadata dataset</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="the-ethord-r-data-package" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> The ethord R Data Package</h1>
+<section id="overview" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
+<p>The <strong>ethord</strong> R data package provides structured, open access to metadata from the ETH Domain ORD Program.</p>
+<p><strong>Package details:</strong></p>
+<ul>
+<li>Website: <a href="https://global-health-engineering.github.io/ethord/" class="uri">https://global-health-engineering.github.io/ethord/</a> <span class="citation" data-cites="massari_2025">(<a href="#ref-massari_2025" role="doc-biblioref">Massari, Schöbitz, and Tilley 2025</a>)</span></li>
+<li>11 datasets covering application and reporting phases</li>
+<li>Open source development (GitHub)</li>
+<li>Permissive license (CC-BY)</li>
+<li>Assigned DOI (Zenodo)</li>
+</ul>
+</section>
+<section id="available-datasets" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="available-datasets"><span class="header-section-number">4.2</span> Available Datasets</h2>
+<section id="application-phase-datasets-6-datasets" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="application-phase-datasets-6-datasets"><span class="header-section-number">4.2.1</span> Application Phase Datasets (6 datasets)</h3>
+<ul>
+<li><code>application_metadata</code> - Core project info, timeline, budget</li>
+<li><code>application_budget</code> - Detailed budget breakdown by category</li>
+<li><code>application_ethics</code> - Ethics considerations and flags</li>
+<li><code>application_metadata_applicants</code> - Co-applicant information</li>
+<li><code>application_metadata_keywords</code> - Research keywords</li>
+<li><code>application_metadata_work_packages</code> - Work package structure</li>
+</ul>
+</section>
+<section id="reporting-phase-datasets-3-datasets" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="reporting-phase-datasets-3-datasets"><span class="header-section-number">4.2.2</span> Reporting Phase Datasets (3 datasets)</h3>
+<ul>
+<li><code>report_metadata</code> - Project reports and updates</li>
+<li><code>report_output</code> - Project outputs and user reach</li>
+<li><code>report_metadata_coapplicants</code> - Co-applicant contributions</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="budget-analysis" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Budget Analysis</h1>
+<section id="budget-distribution-by-cost-category" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="budget-distribution-by-cost-category"><span class="header-section-number">5.1</span> Budget Distribution by Cost Category</h2>
+<p>How is the budget distributed across different cost categories? We can answer this question using the structured metadata in the ethord package.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate total budgets by category</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>budget_summary <span class="ot">&lt;-</span> application_budget <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Personnel =</span> <span class="fu">sum</span>(total_budget_personnel_total_direct, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Travel =</span> <span class="fu">sum</span>(total_budget_travel, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Equipment =</span> <span class="fu">sum</span>(total_budget_equipment, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">`</span><span class="at">Other Direct</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">sum</span>(total_budget_other_total_direct, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Subcontracting =</span> <span class="fu">sum</span>(total_budget_subcontracting, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"cost_category"</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"total_chf"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(total_chf <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> total_chf <span class="sc">/</span> <span class="fu">sum</span>(total_chf) <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_chf))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Display as formatted table</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>budget_summary <span class="sc">|&gt;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"ORD Program Budget Distribution"</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">str_glue</span>(<span class="st">"Cost breakdown across {nrow(application_budget)} funded projects"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">cost_category =</span> <span class="st">"Cost Category"</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_chf =</span> <span class="st">"Total (CHF)"</span>,</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent =</span> <span class="st">"Percentage"</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> total_chf,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">0</span>,</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">use_seps =</span> <span class="cn">TRUE</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> percent,</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">1</span>,</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">scale_values =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>()</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(<span class="dv">14</span>),</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.title.font.size =</span> <span class="fu">px</span>(<span class="dv">18</span>),</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.subtitle.font.size =</span> <span class="fu">px</span>(<span class="dv">14</span>)</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-budget-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-budget-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: ORD Program Budget Distribution by Cost Category
+</figcaption>
+<div aria-describedby="tbl-budget-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="vitzhyjvtq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vitzhyjvtq table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#vitzhyjvtq thead, #vitzhyjvtq tbody, #vitzhyjvtq tfoot, #vitzhyjvtq tr, #vitzhyjvtq td, #vitzhyjvtq th {
+  border-style: none;
+}
+
+#vitzhyjvtq p {
+  margin: 0;
+  padding: 0;
+}
+
+#vitzhyjvtq .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#vitzhyjvtq .gt_title {
+  color: #333333;
+  font-size: 18px;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#vitzhyjvtq .gt_subtitle {
+  color: #333333;
+  font-size: 14px;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#vitzhyjvtq .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#vitzhyjvtq .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#vitzhyjvtq .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#vitzhyjvtq .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#vitzhyjvtq .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#vitzhyjvtq .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#vitzhyjvtq .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#vitzhyjvtq .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#vitzhyjvtq .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#vitzhyjvtq .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#vitzhyjvtq .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#vitzhyjvtq .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vitzhyjvtq .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#vitzhyjvtq .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#vitzhyjvtq .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#vitzhyjvtq .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vitzhyjvtq .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#vitzhyjvtq .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vitzhyjvtq .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#vitzhyjvtq .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vitzhyjvtq .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#vitzhyjvtq .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#vitzhyjvtq .gt_left {
+  text-align: left;
+}
+
+#vitzhyjvtq .gt_center {
+  text-align: center;
+}
+
+#vitzhyjvtq .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#vitzhyjvtq .gt_font_normal {
+  font-weight: normal;
+}
+
+#vitzhyjvtq .gt_font_bold {
+  font-weight: bold;
+}
+
+#vitzhyjvtq .gt_font_italic {
+  font-style: italic;
+}
+
+#vitzhyjvtq .gt_super {
+  font-size: 65%;
+}
+
+#vitzhyjvtq .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#vitzhyjvtq .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#vitzhyjvtq .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#vitzhyjvtq .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#vitzhyjvtq .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#vitzhyjvtq .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#vitzhyjvtq .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#vitzhyjvtq .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#vitzhyjvtq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="3" class="gt_heading gt_title gt_font_normal">ORD Program Budget Distribution</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="3" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Cost breakdown across 78 funded projects</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="cost_category" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="font-weight: bold" scope="col">Cost Category</th>
+<th id="total_chf" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold" scope="col">Total (CHF)</th>
+<th id="percent" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="font-weight: bold" scope="col">Percentage</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="cost_category">Personnel</td>
+<td class="gt_row gt_right" headers="total_chf">6,701,489</td>
+<td class="gt_row gt_right" headers="percent">83.6%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="cost_category">Other Direct</td>
+<td class="gt_row gt_right" headers="total_chf">689,569</td>
+<td class="gt_row gt_right" headers="percent">8.6%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="cost_category">Equipment</td>
+<td class="gt_row gt_right" headers="total_chf">302,240</td>
+<td class="gt_row gt_right" headers="percent">3.8%</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="cost_category">Travel</td>
+<td class="gt_row gt_right" headers="total_chf">181,770</td>
+<td class="gt_row gt_right" headers="percent">2.3%</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="cost_category">Subcontracting</td>
+<td class="gt_row gt_right" headers="total_chf">143,000</td>
+<td class="gt_row gt_right" headers="percent">1.8%</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><em>Data from: <span class="citation" data-cites="massari_2025">Massari, Schöbitz, and Tilley (<a href="#ref-massari_2025" role="doc-biblioref">2025</a>)</span></em></p>
+</section>
+<section id="hierarchical-budget-breakdown" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="hierarchical-budget-breakdown"><span class="header-section-number">5.2</span> Hierarchical Budget Breakdown</h2>
+<p>The following visualization shows a more detailed hierarchical breakdown of budget allocation across categories and subcategories.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare hierarchical budget data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>application_budget_long <span class="ot">&lt;-</span> application_budget <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(project_id, <span class="sc">!</span><span class="fu">ends_with</span>(<span class="st">"total_direct"</span>), <span class="sc">-</span>phase, <span class="sc">-</span>total_budget_total_costs) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span>project_id, <span class="at">names_to =</span> <span class="st">"budget_item"</span>, <span class="at">values_to =</span> <span class="st">"amount"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(amount), amount <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">budget_item =</span> <span class="fu">str_remove</span>(budget_item, <span class="st">"total_budget_"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">main_category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_starts</span>(budget_item, <span class="st">"personnel_"</span>) <span class="sc">~</span> <span class="st">"Personnel"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_starts</span>(budget_item, <span class="st">"other_"</span>) <span class="sc">~</span> <span class="st">"Other Costs"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      budget_item <span class="sc">==</span> <span class="st">"travel"</span> <span class="sc">~</span> <span class="st">"Travel"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      budget_item <span class="sc">==</span> <span class="st">"equipment"</span> <span class="sc">~</span> <span class="st">"Equipment"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      budget_item <span class="sc">==</span> <span class="st">"subcontracting"</span> <span class="sc">~</span> <span class="st">"Subcontracting"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Other Costs"</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub_category =</span> <span class="fu">str_remove</span>(budget_item, <span class="st">"^(personnel|other)_"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_replace_all</span>(<span class="st">"_"</span>, <span class="st">" "</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">str_to_title</span>()</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Create hierarchical stacked bar chart</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>application_budget_long <span class="sc">|&gt;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(main_category, sub_category) <span class="sc">|&gt;</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(amount), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">fct_reorder</span>(main_category, total, <span class="at">.fun =</span> sum),</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> total,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> sub_category)) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="sc">~</span><span class="fu">group_by</span>(.x, main_category) <span class="sc">|&gt;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(total), <span class="at">.groups =</span> <span class="st">"drop"</span>),</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> main_category, <span class="at">y =</span> total, <span class="at">label =</span> scales<span class="sc">::</span><span class="fu">comma</span>(total, <span class="at">prefix =</span> <span class="st">"CHF "</span>, <span class="at">accuracy =</span> <span class="dv">1</span>)),</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>,</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">3.5</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">fontface =</span> <span class="st">"bold"</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Budget Distribution by Category and Subcategory"</span>,</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Hierarchical breakdown of total budget allocation"</span>,</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Budget (CHF)"</span>,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Subcategory"</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span>comma, <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.15</span>))) <span class="sc">+</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_colorblind</span>() <span class="sc">+</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"right"</span>,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-budget-hierarchy" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-budget-hierarchy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-budget-hierarchy-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-budget-hierarchy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Budget Distribution by Category and Subcategory
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Data from: <span class="citation" data-cites="massari_2025">Massari, Schöbitz, and Tilley (<a href="#ref-massari_2025" role="doc-biblioref">2025</a>)</span></em></p>
+</section>
+<section id="budget-treemap-visualization" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="budget-treemap-visualization"><span class="header-section-number">5.3</span> Budget Treemap Visualization</h2>
+<p>A treemap provides an alternative view of the budget distribution, with area proportional to spending.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(treemap)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for treemap</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>treemap_data <span class="ot">&lt;-</span> application_budget_long <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(main_category, sub_category) <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(amount), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="fu">str_glue</span>(<span class="st">"{sub_category}</span><span class="sc">\n</span><span class="st">CHF {scales::comma(total, accuracy = 1)}"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create treemap with annotations</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">treemap</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  treemap_data,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"main_category"</span>, <span class="st">"sub_category"</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">vSize =</span> <span class="st">"total"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">vColor =</span> <span class="st">"main_category"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"categorical"</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">palette =</span> <span class="st">"Set2"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Budget Distribution Treemap"</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">fontsize.labels =</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">10</span>),</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">fontcolor.labels =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"black"</span>),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">fontface.labels =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">bg.labels =</span> <span class="fu">c</span>(<span class="st">"transparent"</span>),</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">align.labels =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"center"</span>), <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"center"</span>)),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">overlap.labels =</span> <span class="fl">0.5</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">border.col =</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"gray90"</span>),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">border.lwds =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-budget-treemap" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-budget-treemap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-budget-treemap-1.png" class="img-fluid figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-budget-treemap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Budget Distribution Treemap
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Data from: <span class="citation" data-cites="massari_2025">Massari, Schöbitz, and Tilley (<a href="#ref-massari_2025" role="doc-biblioref">2025</a>)</span></em></p>
+</section>
+<section id="detailed-budget-summary-table" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="detailed-budget-summary-table"><span class="header-section-number">5.4</span> Detailed Budget Summary Table</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create detailed budget table with grouping and totals</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>budget_table_data <span class="ot">&lt;-</span> application_budget_long <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(main_category, sub_category) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_chf =</span> <span class="fu">sum</span>(amount), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(main_category) <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">category_total =</span> <span class="fu">sum</span>(total_chf),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent_of_category =</span> total_chf <span class="sc">/</span> category_total <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(category_total), <span class="fu">desc</span>(total_chf))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>budget_table_data <span class="sc">|&gt;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">groupname_col =</span> <span class="st">"main_category"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Detailed Budget Breakdown"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Data of 78/95 projects"</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub_category =</span> <span class="st">"Subcategory"</span>,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_chf =</span> <span class="st">"Amount (CHF)"</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent_of_category =</span> <span class="st">"% of Category"</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add summary rows for each group</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary_rows</span>(</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">groups =</span> <span class="fu">everything</span>(),</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> total_chf,</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">fns =</span> <span class="fu">list</span>(</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Category Total"</span> <span class="ot">=</span> <span class="er">~</span><span class="fu">sum</span>(., <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">fmt =</span> <span class="sc">~</span><span class="fu">fmt_number</span>(., <span class="at">decimals =</span> <span class="dv">0</span>, <span class="at">use_seps =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Add grand total row</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grand_summary_rows</span>(</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> total_chf,</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">fns =</span> <span class="fu">list</span>(</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Grand Total"</span> <span class="ot">=</span> <span class="er">~</span><span class="fu">sum</span>(., <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">fmt =</span> <span class="sc">~</span><span class="fu">fmt_number</span>(., <span class="at">decimals =</span> <span class="dv">0</span>, <span class="at">use_seps =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> total_chf,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">0</span>,</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">use_seps =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> percent_of_category,</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">1</span>,</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">scale_values =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>),</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_row_groups</span>()</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"gray95"</span>),</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> <span class="fu">everything</span>(), <span class="at">rows =</span> percent_of_category <span class="sc">&gt;</span> <span class="dv">50</span>)</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"lightblue"</span>),</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>)</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_summary</span>()</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>),</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">color =</span> <span class="st">"white"</span>)</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_grand_summary</span>()</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(<span class="dv">11</span>),</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.title.font.size =</span> <span class="fu">px</span>(<span class="dv">16</span>),</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">heading.subtitle.font.size =</span> <span class="fu">px</span>(<span class="dv">12</span>),</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">row_group.background.color =</span> <span class="st">"lightblue"</span>,</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">row_group.font.weight =</span> <span class="st">"bold"</span>,</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">summary_row.background.color =</span> <span class="st">"lightblue"</span></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_hide</span>(<span class="at">columns =</span> category_total)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-detailed-budget" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-detailed-budget-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Detailed Budget Breakdown by Category and Subcategory
+</figcaption>
+<div aria-describedby="tbl-detailed-budget-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="mnbccapsny" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mnbccapsny table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#mnbccapsny thead, #mnbccapsny tbody, #mnbccapsny tfoot, #mnbccapsny tr, #mnbccapsny td, #mnbccapsny th {
+  border-style: none;
+}
+
+#mnbccapsny p {
+  margin: 0;
+  padding: 0;
+}
+
+#mnbccapsny .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 11px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#mnbccapsny .gt_title {
+  color: #333333;
+  font-size: 16px;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#mnbccapsny .gt_subtitle {
+  color: #333333;
+  font-size: 12px;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#mnbccapsny .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#mnbccapsny .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#mnbccapsny .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#mnbccapsny .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#mnbccapsny .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#mnbccapsny .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#mnbccapsny .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #ADD8E6;
+  font-size: 100%;
+  font-weight: bold;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#mnbccapsny .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #ADD8E6;
+  font-size: 100%;
+  font-weight: bold;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#mnbccapsny .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#mnbccapsny .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#mnbccapsny .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#mnbccapsny .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mnbccapsny .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#mnbccapsny .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#mnbccapsny .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#mnbccapsny .gt_summary_row {
+  color: #333333;
+  background-color: #ADD8E6;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mnbccapsny .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#mnbccapsny .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mnbccapsny .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#mnbccapsny .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mnbccapsny .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#mnbccapsny .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#mnbccapsny .gt_left {
+  text-align: left;
+}
+
+#mnbccapsny .gt_center {
+  text-align: center;
+}
+
+#mnbccapsny .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#mnbccapsny .gt_font_normal {
+  font-weight: normal;
+}
+
+#mnbccapsny .gt_font_bold {
+  font-weight: bold;
+}
+
+#mnbccapsny .gt_font_italic {
+  font-style: italic;
+}
+
+#mnbccapsny .gt_super {
+  font-size: 65%;
+}
+
+#mnbccapsny .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#mnbccapsny .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#mnbccapsny .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#mnbccapsny .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#mnbccapsny .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#mnbccapsny .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#mnbccapsny .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#mnbccapsny .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#mnbccapsny div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="4" class="gt_heading gt_title gt_font_normal">Detailed Budget Breakdown</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="4" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Data of 78/95 projects</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="sub_category" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Subcategory</th>
+<th id="total_chf" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Amount (CHF)</th>
+<th id="percent_of_category" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">% of Category</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="gt_group_heading_row odd">
+<th colspan="4" id="Personnel" class="gt_group_heading" data-quarto-table-cell-role="th" style="font-weight: bold" scope="colgroup">Personnel</th>
+</tr>
+<tr class="gt_row_group_first even">
+<th id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Personnel stub_1_1 sub_category">Senior Staff</td>
+<td class="gt_row gt_right" headers="Personnel stub_1_1 total_chf">2,979,824</td>
+<td class="gt_row gt_right" headers="Personnel stub_1_1 percent_of_category">40.4%</td>
+</tr>
+<tr class="odd">
+<th id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Personnel stub_1_2 sub_category">Postdocs</td>
+<td class="gt_row gt_right" headers="Personnel stub_1_2 total_chf">2,280,533</td>
+<td class="gt_row gt_right" headers="Personnel stub_1_2 percent_of_category">30.9%</td>
+</tr>
+<tr class="even">
+<th id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Personnel stub_1_3 sub_category">Other</td>
+<td class="gt_row gt_right" headers="Personnel stub_1_3 total_chf">1,752,967</td>
+<td class="gt_row gt_right" headers="Personnel stub_1_3 percent_of_category">23.8%</td>
+</tr>
+<tr class="odd">
+<th id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Personnel stub_1_4 sub_category">Students</td>
+<td class="gt_row gt_right" headers="Personnel stub_1_4 total_chf">355,750</td>
+<td class="gt_row gt_right" headers="Personnel stub_1_4 percent_of_category">4.8%</td>
+</tr>
+<tr class="even">
+<th id="summary_stub_Personnel_1" class="gt_row gt_left gt_stub gt_summary_row gt_first_summary_row thick gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Category Total</th>
+<td class="gt_row gt_left gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Personnel summary_stub_Personnel_1 sub_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Personnel summary_stub_Personnel_1 total_chf" style="background-color: #ADD8E6; font-weight: bold">7,369,074</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Personnel summary_stub_Personnel_1 percent_of_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+</tr>
+<tr class="gt_group_heading_row odd">
+<th colspan="4" id="Equipment" class="gt_group_heading" data-quarto-table-cell-role="th" style="font-weight: bold" scope="colgroup">Equipment</th>
+</tr>
+<tr class="gt_row_group_first even">
+<th id="stub_1_5" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Equipment stub_1_5 sub_category" style="background-color: #F2F2F2">Equipment</td>
+<td class="gt_row gt_right" headers="Equipment stub_1_5 total_chf" style="background-color: #F2F2F2">302,240</td>
+<td class="gt_row gt_right" headers="Equipment stub_1_5 percent_of_category" style="background-color: #F2F2F2">100.0%</td>
+</tr>
+<tr class="odd">
+<th id="summary_stub_Equipment_1" class="gt_row gt_left gt_stub gt_summary_row gt_first_summary_row thick gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Category Total</th>
+<td class="gt_row gt_left gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Equipment summary_stub_Equipment_1 sub_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Equipment summary_stub_Equipment_1 total_chf" style="background-color: #ADD8E6; font-weight: bold">302,240</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Equipment summary_stub_Equipment_1 percent_of_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+</tr>
+<tr class="gt_group_heading_row even">
+<th colspan="4" id="Other Costs" class="gt_group_heading" data-quarto-table-cell-role="th" style="font-weight: bold" scope="colgroup">Other Costs</th>
+</tr>
+<tr class="gt_row_group_first odd">
+<th id="stub_1_6" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Other Costs stub_1_6 sub_category" style="background-color: #F2F2F2">Conferences Workshops</td>
+<td class="gt_row gt_right" headers="Other Costs stub_1_6 total_chf" style="background-color: #F2F2F2">165,455</td>
+<td class="gt_row gt_right" headers="Other Costs stub_1_6 percent_of_category" style="background-color: #F2F2F2">73.3%</td>
+</tr>
+<tr class="even">
+<th id="stub_1_7" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Other Costs stub_1_7 sub_category">Publication Fees</td>
+<td class="gt_row gt_right" headers="Other Costs stub_1_7 total_chf">35,250</td>
+<td class="gt_row gt_right" headers="Other Costs stub_1_7 percent_of_category">15.6%</td>
+</tr>
+<tr class="odd">
+<th id="stub_1_8" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Other Costs stub_1_8 sub_category">Other</td>
+<td class="gt_row gt_right" headers="Other Costs stub_1_8 total_chf">24,927</td>
+<td class="gt_row gt_right" headers="Other Costs stub_1_8 percent_of_category">11.0%</td>
+</tr>
+<tr class="even">
+<th id="summary_stub_Other Costs_1" class="gt_row gt_left gt_stub gt_summary_row gt_first_summary_row thick gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Category Total</th>
+<td class="gt_row gt_left gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Other Costs summary_stub_Other Costs_1 sub_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Other Costs summary_stub_Other Costs_1 total_chf" style="background-color: #ADD8E6; font-weight: bold">225,632</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Other Costs summary_stub_Other Costs_1 percent_of_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+</tr>
+<tr class="gt_group_heading_row odd">
+<th colspan="4" id="Travel" class="gt_group_heading" data-quarto-table-cell-role="th" style="font-weight: bold" scope="colgroup">Travel</th>
+</tr>
+<tr class="gt_row_group_first even">
+<th id="stub_1_9" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Travel stub_1_9 sub_category" style="background-color: #F2F2F2">Travel</td>
+<td class="gt_row gt_right" headers="Travel stub_1_9 total_chf" style="background-color: #F2F2F2">181,770</td>
+<td class="gt_row gt_right" headers="Travel stub_1_9 percent_of_category" style="background-color: #F2F2F2">100.0%</td>
+</tr>
+<tr class="odd">
+<th id="summary_stub_Travel_1" class="gt_row gt_left gt_stub gt_summary_row gt_first_summary_row thick gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Category Total</th>
+<td class="gt_row gt_left gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Travel summary_stub_Travel_1 sub_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Travel summary_stub_Travel_1 total_chf" style="background-color: #ADD8E6; font-weight: bold">181,770</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Travel summary_stub_Travel_1 percent_of_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+</tr>
+<tr class="gt_group_heading_row even">
+<th colspan="4" id="Subcontracting" class="gt_group_heading" data-quarto-table-cell-role="th" style="font-weight: bold" scope="colgroup">Subcontracting</th>
+</tr>
+<tr class="gt_row_group_first odd">
+<th id="stub_1_10" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row"></th>
+<td class="gt_row gt_left" headers="Subcontracting stub_1_10 sub_category" style="background-color: #F2F2F2">Subcontracting</td>
+<td class="gt_row gt_right" headers="Subcontracting stub_1_10 total_chf" style="background-color: #F2F2F2">143,000</td>
+<td class="gt_row gt_right" headers="Subcontracting stub_1_10 percent_of_category" style="background-color: #F2F2F2">100.0%</td>
+</tr>
+<tr class="even">
+<th id="summary_stub_Subcontracting_1" class="gt_row gt_left gt_stub gt_summary_row gt_first_summary_row thick gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Category Total</th>
+<td class="gt_row gt_left gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Subcontracting summary_stub_Subcontracting_1 sub_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Subcontracting summary_stub_Subcontracting_1 total_chf" style="background-color: #ADD8E6; font-weight: bold">143,000</td>
+<td class="gt_row gt_right gt_summary_row gt_first_summary_row thick gt_last_summary_row" headers="Subcontracting summary_stub_Subcontracting_1 percent_of_category" style="background-color: #ADD8E6; font-weight: bold">—</td>
+</tr>
+<tr class="odd">
+<th id="grand_summary_stub_1" class="gt_row gt_left gt_stub gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" data-quarto-table-cell-role="th" scope="row">Grand Total</th>
+<td class="gt_row gt_left gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 sub_category" style="background-color: #4682B4; color: #FFFFFF; font-weight: bold">—</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 total_chf" style="background-color: #4682B4; color: #FFFFFF; font-weight: bold">8,221,716</td>
+<td class="gt_row gt_right gt_grand_summary_row gt_first_grand_summary_row gt_last_summary_row" headers="grand_summary_stub_1 percent_of_category" style="background-color: #4682B4; color: #FFFFFF; font-weight: bold">—</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><em>Data from: <span class="citation" data-cites="massari_2025">Massari, Schöbitz, and Tilley (<a href="#ref-massari_2025" role="doc-biblioref">2025</a>)</span></em></p>
+</section>
+</section>
+<section id="the-ethord-package-website" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> The ethord Package Website</h1>
+<p>The ethord package has a comprehensive website with documentation, vignettes, and examples.</p>
+<p><strong>Visit the package website:</strong> <a href="https://global-health-engineering.github.io/ethord/">global-health-engineering.github.io/ethord/</a></p>
+</section>
+<section id="future-possibilities" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Future Possibilities</h1>
+<section id="making-administrative-data-open-by-default" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="making-administrative-data-open-by-default"><span class="header-section-number">7.1</span> Making Administrative Data “Open by Default”</h2>
+<p>How could we make such administrative data “open by default” in the future?</p>
+</section>
+<section id="swiss-open-by-default-policy-framework" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="swiss-open-by-default-policy-framework"><span class="header-section-number">7.2</span> Swiss Open by Default Policy Framework</h2>
+<p>Switzerland has established a comprehensive framework for open data publication:</p>
+<p><strong>Federal Foundation</strong>: Open Government Data Strategy 2019-2023 <span class="citation" data-cites="swiss_ogd_strategy_2019">(<a href="#ref-swiss_ogd_strategy_2019" role="doc-biblioref">Swiss Federal Council 2019</a>)</span> established “open by default” principle for all federal agencies.</p>
+<p><strong>Legal Mandate</strong>: Federal Act EMBAG Article 10 <span class="citation" data-cites="embag_2024">(<a href="#ref-embag_2024" role="doc-biblioref">Swiss Federal Assembly 2024</a>)</span> legally requires open data publication unless restricted by privacy or security.</p>
+<p><strong>Implementation</strong>: OGD Masterplan 2024-2027 <span class="citation" data-cites="ogd_masterplan_2024">(<a href="#ref-ogd_masterplan_2024" role="doc-biblioref">Federal Statistical Office 2024a</a>)</span> operationalizes through:</p>
+<ul>
+<li>Progressive data opening with documented exceptions</li>
+<li>Quality standards aligned with FAIR principles <span class="citation" data-cites="fair_principles">(<a href="#ref-fair_principles" role="doc-biblioref">Wilkinson et al. 2016</a>)</span></li>
+<li>Centralized coordination via opendata.swiss <span class="citation" data-cites="opendata_swiss">(<a href="#ref-opendata_swiss" role="doc-biblioref">Federal Statistical Office 2024b</a>)</span></li>
+<li>Standardized metadata using DCAT-AP CH <span class="citation" data-cites="dcat_ap_ch">(<a href="#ref-dcat_ap_ch" role="doc-biblioref">Federal Statistical Office 2023</a>)</span></li>
+</ul>
+<p>Switzerland is unique in having legally mandated open by default - not just policy recommendations. This creates accountability and consistency across agencies. The FAIR alignment shows how government OGD principles directly apply to research data contexts.</p>
+</section>
+</section>
+<section id="conclusion" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Conclusion</h1>
+<p>The ethord package demonstrates how structured, open metadata can enhance transparency and enable deeper analysis of research funding programs. By applying FAIR principles to administrative data, we create opportunities for better understanding program outcomes and researcher engagement with open research data practices.</p>
+<section id="data-availability" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="data-availability"><span class="header-section-number">8.1</span> Data Availability</h2>
+<p>All data and analyses presented in this report are available through the ethord R package <span class="citation" data-cites="massari_2025">(<a href="#ref-massari_2025" role="doc-biblioref">Massari, Schöbitz, and Tilley 2025</a>)</span>:</p>
+<ul>
+<li>Website: <a href="https://global-health-engineering.github.io/ethord/" class="uri">https://global-health-engineering.github.io/ethord/</a></li>
+<li>GitHub: <a href="https://github.com/global-health-engineering/ethord" class="uri">https://github.com/global-health-engineering/ethord</a></li>
+<li>DOI: Available via Zenodo</li>
+</ul>
+</section>
+</section>
+<section id="references" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-dcat_ap_ch" class="csl-entry" role="listitem">
+Federal Statistical Office. 2023. <span>“DCAT Application Profile for Data Portals in Switzerland (DCAT-AP CH).”</span> <a href="https://www.dcat-ap.ch/">https://www.dcat-ap.ch/</a>.
+</div>
+<div id="ref-ogd_masterplan_2024" class="csl-entry" role="listitem">
+———. 2024a. <span>“Open Government Data Masterplan 2024-2027.”</span> <a href="https://www.bfs.admin.ch/bfs/en/home/services/ogd.html">https://www.bfs.admin.ch/bfs/en/home/services/ogd.html</a>.
+</div>
+<div id="ref-opendata_swiss" class="csl-entry" role="listitem">
+———. 2024b. <span>“Opendata.swiss: Swiss Open Government Data Portal.”</span> <a href="https://opendata.swiss/">https://opendata.swiss/</a>.
+</div>
+<div id="ref-massari_2025" class="csl-entry" role="listitem">
+Massari, Nicolo, Lars Schöbitz, and Elizabeth Tilley. 2025. <span>“Ethord: ETH Board Open Research Data (ORD) Program Project Metadata and Report Data.”</span> <a href="https://doi.org/10.5281/zenodo.16563064">https://doi.org/10.5281/zenodo.16563064</a>.
+</div>
+<div id="ref-embag_2024" class="csl-entry" role="listitem">
+Swiss Federal Assembly. 2024. <em>Federal Act on the Use of Electronic Means for the Fulfilment of Government Tasks (EMBAG)</em>. <a href="https://www.fedlex.admin.ch/eli/cc/2023/682/en">https://www.fedlex.admin.ch/eli/cc/2023/682/en</a>.
+</div>
+<div id="ref-swiss_ogd_strategy_2019" class="csl-entry" role="listitem">
+Swiss Federal Council. 2019. <span>“Open Government Data Strategy Switzerland 2019-2023.”</span> <a href="https://www.admin.ch/gov/en/start/documentation/media-releases.msg-id-74641.html">https://www.admin.ch/gov/en/start/documentation/media-releases.msg-id-74641.html</a>.
+</div>
+<div id="ref-fair_principles" class="csl-entry" role="listitem">
+Wilkinson, Mark D et al. 2016. <span>“The FAIR Guiding Principles for Scientific Data Management and Stewardship.”</span> <em>Scientific Data</em>. <a href="https://doi.org/10.1038/sdata.2016.18">https://doi.org/10.1038/sdata.2016.18</a>.
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
