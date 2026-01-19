@@ -80,7 +80,7 @@ The current portal has several limitations:
 
 ## Distribution of Projects Across Institutions
 
-The following visualization shows how projects are distributed across institutions and project categories.
+The following visualization shows how projects are distributed across institutions and project categories using the `ethord` package. It's a first example of how we can use the structured metadata to analyze the program's reach and impact.
 
 ```{r}
 #| label: fig-project-distribution
@@ -196,6 +196,13 @@ The **ethord** R data package provides structured, open access to metadata from 
 - Data can be used, but with caution and disclaimers about current status
 - Future updates will improve data quality and completeness, as all reports are submitted
 
+### Approach 
+
+Reach out to project leads to:
+
+- verify extracted data by providing a data overview per project
+- invite to contribute in keeping data on project outputs up-to-date using GitHub issues (e.g. <https://github.com/Global-Health-Engineering/ethord/issues/20>)
+
 ## Available Datasets
 
 ### Application Phase Datasets (6 datasets)
@@ -213,15 +220,13 @@ The **ethord** R data package provides structured, open access to metadata from 
 - `report_output` - Project outputs and user reach
 - `report_metadata_coapplicants` - Co-applicant contributions
 
-
-
-
-
 # Budget Analysis
 
 ## Budget Distribution by Cost Category
 
 How is the budget distributed across different cost categories? We can answer this question using the structured metadata in the ethord package.
+
+The results in @tbl-budget-summary show that the program was largely used for personnel costs, representing approximately 90% of the total budget across all projects. This substantial investment in human resources reflects the program's emphasis on capacity building and expertise development. An important consideration for future program planning is whether funded staff were already employed at the institutions or hired specifically for these projects. Additionally, any follow-up program should consider sustainability mechanisms, as many staff hired for these projects may face funding gaps when projects conclude, potentially limiting the long-term impact of developed expertise and infrastructure.
 
 ```{r}
 #| label: tbl-budget-summary
@@ -249,7 +254,7 @@ budget_summary |>
   gt() |>
   tab_header(
     title = "ORD Program Budget Distribution",
-    subtitle = str_glue("Cost breakdown across {nrow(application_budget)} funded projects")
+    subtitle = str_glue("Cost breakdown across {nrow(application_metadata)} funded projects")
   ) |>
   cols_label(
     cost_category = "Cost Category",
@@ -281,17 +286,16 @@ budget_summary |>
 
 *Data from: @massari_2025*
 
-## Hierarchical Budget Breakdown
+## Budget Treemap Visualization
 
-The following visualization shows a more detailed hierarchical breakdown of budget allocation across categories and subcategories.
+A treemap provides an alternative view of the budget distribution, with area proportional to spending.
 
 ```{r}
-#| label: fig-budget-hierarchy
-#| fig-cap: "Budget Distribution by Category and Subcategory"
+#| label: fig-budget-treemap
+#| fig-cap: "Budget Distribution Treemap"
 #| fig-width: 10
 #| fig-height: 6
 
-# Prepare hierarchical budget data
 application_budget_long <- application_budget |>
   select(project_id, !ends_with("total_direct"), -phase, -total_budget_total_costs) |>
   pivot_longer(cols = !project_id, names_to = "budget_item", values_to = "amount") |>
@@ -310,51 +314,6 @@ application_budget_long <- application_budget |>
       str_replace_all("_", " ") |>
       str_to_title()
   )
-
-# Create hierarchical stacked bar chart
-application_budget_long |>
-  group_by(main_category, sub_category) |>
-  summarise(total = sum(amount), .groups = "drop") |>
-  ggplot(aes(x = fct_reorder(main_category, total, .fun = sum),
-             y = total,
-             fill = sub_category)) +
-  geom_col() +
-  geom_text(
-    data = ~group_by(.x, main_category) |>
-      summarise(total = sum(total), .groups = "drop"),
-    aes(x = main_category, y = total, label = scales::comma(total, prefix = "CHF ", accuracy = 1)),
-    inherit.aes = FALSE,
-    hjust = -0.1,
-    size = 3.5,
-    fontface = "bold"
-  ) +
-  coord_flip() +
-  labs(
-    title = "Budget Distribution by Category and Subcategory",
-    subtitle = "Hierarchical breakdown of total budget allocation",
-    x = NULL,
-    y = "Total Budget (CHF)",
-    fill = "Subcategory"
-  ) +
-  scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.15))) +
-  scale_fill_colorblind() +
-  theme_minimal(base_size = 10) +
-  theme(panel.grid.major.y = element_blank(),
-        legend.position = "right",
-        legend.text = element_text(size = 7))
-```
-
-*Data from: @massari_2025*
-
-## Budget Treemap Visualization
-
-A treemap provides an alternative view of the budget distribution, with area proportional to spending.
-
-```{r}
-#| label: fig-budget-treemap
-#| fig-cap: "Budget Distribution Treemap"
-#| fig-width: 10
-#| fig-height: 6
 
 library(treemap)
 
@@ -390,6 +349,8 @@ treemap(
 
 ## Detailed Budget Summary Table
 
+@tbl-detailed-budget provides a detailed breakdown of the budget allocation, with particular focus on the Personnel category. Within the personnel budget of approximately CHF 7.4 million, the distribution reveals strategic investment across different career stages: Senior Staff accounts for 40.4% (CHF 3.0 million across 25 projects), Postdocs represent 30.9% (CHF 2.3 million across 29 projects), while the "Other" category—likely encompassing technical staff, research assistants, and other support roles—comprises 23.8% (CHF 1.8 million across 43 projects). Student positions received the smallest allocation at 4.8% (CHF 356,000 across 23 projects). This distribution pattern suggests that projects prioritized experienced researchers and professional staff.
+
 ```{r}
 #| label: tbl-detailed-budget
 #| tbl-cap: "Detailed Budget Breakdown by Category and Subcategory"
@@ -410,7 +371,7 @@ budget_table_data |>
   gt(groupname_col = "main_category") |>
   tab_header(
     title = "Detailed Budget Breakdown",
-    subtitle = "Data of 78/95 projects"
+    subtitle = "Data of 76/95 projects"
   ) |>
   cols_label(
     sub_category = "Subcategory",
@@ -486,6 +447,14 @@ The ethord package has a comprehensive website with documentation, vignettes, an
 **Visit the package website:** [global-health-engineering.github.io/ethord/](https://global-health-engineering.github.io/ethord/)
 
 # Future Possibilities
+
+## ETHZ FAIR Coalition Open Call
+
+Recommendations for future program iterations:
+
+- **Adopt "Open by Default" policies**: Establish project metadata as openly accessible by default, with clear exceptions only for privacy or security concerns, aligning with Swiss federal open data requirements
+- **Implement structured application forms**: Transition from DOCX/PDF-based proposals to structured digital forms that capture metadata in machine-readable format from the application phase, reducing manual extraction effort and improving data quality
+- **Standardize reporting mechanisms**: Deploy structured forms for project reporting to ensure consistent, comparable data collection across all funded projects and enable real-time tracking of outputs and outcomes
 
 ## Making Administrative Data "Open by Default"
 
