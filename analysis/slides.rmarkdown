@@ -1,0 +1,507 @@
+---
+title: "ethord"
+subtitle: |
+  Publishing Open Metadata for Open Research Data Projects of the ETH Domain
+author:
+  - name: Lars Schöbitz
+    orcid: 0000-0003-2196-5015
+    affiliations:
+        - ref: ghe
+  - name: Nicoló Massari
+    orcid: 0009-0006-8421-930X
+    affiliations:
+        - ref: ghe
+  - name: Prof. Elizabeth Tilley
+    orcid: 0000-0002-2095-9724
+    affiliations:
+        - ref: ghe
+affiliations:
+  - id: ghe
+    name: Global Health Engineering - ETH Zurich
+    url: https://ghe.ethz.ch/
+date: today
+date-format: long
+format:
+  revealjs:
+    theme: slides.scss
+    transition: fade
+    slide-number: true
+    width: 960
+    height: 540
+editor: source
+editor_options:
+  chunk_output_type: console
+execute:
+  freeze: auto
+bibliography: ["soad-references.bib"]
+---
+
+```{r}
+library(ggthemes)
+library(tidyverse)
+library(ggtext)
+library(gt)
+library(ethord)
+```
+
+# ETH Domain Open Research Data (ORD) Program {.center background-image="img/eth-kolloquium/silhouette.jpg" background-color="#000000"}
+
+## Measure 1: Calls for field specific actions {.dark-slide .center}
+
+::: {.quote-text}
+"The primary goal of the measure is to support ETH researchers to engage in, and [develop ORD practices]{.highlight-gold} and to become [ORD leaders]{.highlight-gold} in their fields"
+:::
+
+## Projects {.dark-slide .center}
+
+::: {.quote-text}
+15 mio CHF in funding
+96 funded projects
+:::
+
+# Metadata {.center background-image="img/eth-kolloquium/silhouette.jpg" background-color="#000000"}
+
+## Metadata: ORD portal {.dark-slide .center}
+
+![](img/soad/ord-portal.png){width="100%"}
+
+## Metadata: ORD portal {.dark-slide .center .smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+
+- Portal shows titles, abstracts, institutions, applicant names
+- No structured bulk data or programmatic access
+- Limited visibility of reports and outputs
+- No systematic tracking of project outcomes
+:::
+
+::: {.column width="50%"}
+![](img/soad/ord-portal-highlights.png){width="100%"}
+:::
+:::
+
+## Distribution of Projects {.center}
+
+```{r}
+#| out-width: "100%"
+#| fig-width: 10
+#| fig-height: 5
+
+application_metadata |>
+  mutate(category = case_when(
+    project_category == "Contribute" ~ "Contribute (30k)",
+    project_category == "Explore" ~ "Explore (150k)",
+    project_category == "Establish" ~ "Establish (1.5m)"
+  )) |>
+  mutate(category = factor(category,
+                           levels = c("Contribute (30k)",
+                                      "Explore (150k)",
+                                      "Establish (1.5m)"))) |>
+  count(main_applicant_institution, category) |>
+  mutate(main_applicant_institution = str_wrap(main_applicant_institution, width = 30)) |>
+  ggplot(aes(x = fct_reorder(main_applicant_institution, n),
+             y = n,
+             fill = category)) +
+  geom_col(position = "dodge") +
+  geom_label(aes(label = n),
+             position = position_dodge(width = 0.9),
+             show.legend = FALSE,
+             color = "white",
+             fontface = "bold",
+             size = 3) +
+  coord_flip() +
+  labs(
+    title = "Open Research Data Program of the ETH Board",
+    subtitle = "Number of funded projects per institution of lead applicant and project category",
+    y = "Number of projects",
+    x = NULL,
+    fill = "Project category:"
+  ) +
+  scale_fill_colorblind() +
+  theme_minimal(base_size = 10) +
+  theme(panel.grid.major.y = element_blank(),
+        axis.text.y = element_text(size = 8))
+
+```
+
+::: footer
+Data from: @massari_2025
+:::
+
+# Metadata (not public) {.center background-image="img/eth-kolloquium/silhouette.jpg" background-color="#000000"}
+
+## Proposals & Reports & List of Outputs {.dark-slide .center}
+
+- What is their scientific role (e.g. Professor, Post Doc, PhD, etc.)?
+- How were budgets distributed among their cost categories?
+- How many publications are derived from these projects?
+- How many ORD datasets have been published?
+- etc.
+
+## Limitation {.dark-slide .center}
+
+- proposals, scientific reports, and lists of outputs are not available as
+  - open
+  - structured
+  - machine-readable
+  - data
+
+## The Real Limitation {.dark-slide .center}
+
+- proposals, scientific reports, and lists of outputs are:
+  - confidential
+  - only available to EPFL Research Office
+  - protected as intellectual property by researchers
+
+## Consequences {.dark-slide .center}
+
+- Limits discoverability and impact assessment
+- Reviewers have privileged access while public cannot evaluate program effectiveness
+- Contradicts goal of helping researchers become ORD leaders
+
+## Solution {.dark-slide .center}
+
+- Ask all applicants for permission to extract metadata from project documentation
+- We are experts in FAIR data sharing principles, so let's do it!
+- Publish FAIR-compliant, DOI-assigned metadata dataset
+
+# ethord R data package {.center background-image="img/eth-kolloquium/silhouette.jpg" background-color="#000000"}
+
+## ethord {.dark-slide .center}
+
+- <https://global-health-engineering.github.io/ethord/> [@massari_2025]
+- R data package with 11 datasets
+- open source development (GitHub)
+- permissive license (CC-BY)
+- assigned DOI (Zenodo)
+
+## Resources: Key Datasets {.center .smallest}
+
+**Application Phase (6 datasets)**
+
+- `application_metadata` - Core project info, timeline, budget
+- `application_budget` - Detailed budget breakdown by category
+- `application_ethics` - Ethics considerations and flags
+- `application_metadata_applicants` - Co-applicant information
+- `application_metadata_keywords` - Research keywords
+- `application_metadata_work_packages` - Work package structure
+
+**Reporting Phase (3 datasets)**
+
+- `report_metadata` - Project reports and updates
+- `report_output` - Project outputs and user reach
+- `report_metadata_coapplicants` - Co-applicant contributions
+
+## Question: How is the budget distributed across cost categories? {.center .smallest}
+
+```{r}
+#| output-location: slide
+#| echo: true
+
+# Calculate total budgets by category
+budget_summary <- application_budget |>
+  summarise(
+    Personnel = sum(total_budget_personnel_total_direct, na.rm = TRUE),
+    Travel = sum(total_budget_travel, na.rm = TRUE),
+    Equipment = sum(total_budget_equipment, na.rm = TRUE),
+    `Other Direct` = sum(total_budget_other_total_direct, na.rm = TRUE),
+    Subcontracting = sum(total_budget_subcontracting, na.rm = TRUE)
+  ) |>
+  pivot_longer(cols = everything(),
+               names_to = "cost_category",
+               values_to = "total_chf") |>
+  filter(total_chf > 0) |>
+  mutate(percent = total_chf / sum(total_chf) * 100) |>
+  arrange(desc(total_chf))
+
+# Display as formatted table
+budget_summary |>
+  gt() |>
+  tab_header(
+    title = "ORD Program Budget Distribution",
+    subtitle = str_glue("Cost breakdown across {nrow(application_budget)} funded projects")
+  ) |>
+  cols_label(
+    cost_category = "Cost Category",
+    total_chf = "Total (CHF)",
+    percent = "Percentage"
+  ) |>
+  fmt_number(
+    columns = total_chf,
+    decimals = 0,
+    use_seps = TRUE
+  ) |>
+  fmt_percent(
+    columns = percent,
+    decimals = 1,
+    scale_values = FALSE
+  ) |>
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels()
+  ) |>
+  tab_options(
+    table.font.size = px(14),
+    heading.title.font.size = px(18),
+    heading.subtitle.font.size = px(14)
+  )
+```
+
+::: footer
+Data from: @massari_2025
+:::
+
+
+## Budget Distribution by Category {.center}
+
+```{r}
+#| fig-width: 10
+#| fig-height: 6
+#| warning: false
+
+# Prepare hierarchical budget data
+application_budget_long <- application_budget |>
+  select(project_id, !ends_with("total_direct"), -phase, -total_budget_total_costs) |>
+  pivot_longer(cols = !project_id, names_to = "budget_item", values_to = "amount") |>
+  filter(!is.na(amount), amount > 0) |>
+  mutate(budget_item = str_remove(budget_item, "total_budget_")) |>
+  mutate(
+    main_category = case_when(
+      str_starts(budget_item, "personnel_") ~ "Personnel",
+      str_starts(budget_item, "other_") ~ "Other Costs",
+      budget_item == "travel" ~ "Travel",
+      budget_item == "equipment" ~ "Equipment",
+      budget_item == "subcontracting" ~ "Subcontracting",
+      TRUE ~ "Other Costs"
+    ),
+    sub_category = str_remove(budget_item, "^(personnel|other)_") |>
+      str_replace_all("_", " ") |>
+      str_to_title()
+  )
+
+# Create hierarchical stacked bar chart
+application_budget_long |>
+  group_by(main_category, sub_category) |>
+  summarise(total = sum(amount), .groups = "drop") |>
+  ggplot(aes(x = fct_reorder(main_category, total, .fun = sum),
+             y = total,
+             fill = sub_category)) +
+  geom_col() +
+  geom_text(
+    data = ~group_by(.x, main_category) |>
+      summarise(total = sum(total), .groups = "drop"),
+    aes(x = main_category, y = total, label = scales::comma(total, prefix = "CHF ", accuracy = 1)),
+    inherit.aes = FALSE,
+    hjust = -0.1,
+    size = 3.5,
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  labs(
+    title = "Budget Distribution by Category and Subcategory",
+    subtitle = "Hierarchical breakdown of total budget allocation",
+    x = NULL,
+    y = "Total Budget (CHF)",
+    fill = "Subcategory"
+  ) +
+  scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.15))) +
+  scale_fill_colorblind() +
+  theme_minimal(base_size = 10) +
+  theme(panel.grid.major.y = element_blank(),
+        legend.position = "right",
+        legend.text = element_text(size = 7))
+```
+
+::: footer
+Data from: @massari_2025
+:::
+
+## Budget Treemap {.center}
+
+```{r}
+#| fig-width: 10
+#| fig-height: 6
+#| warning: false
+
+library(treemap)
+
+# Prepare data for treemap
+treemap_data <- application_budget_long |>
+  group_by(main_category, sub_category) |>
+  summarise(total = sum(amount), .groups = "drop") |>
+  mutate(
+    label = str_glue("{sub_category}\nCHF {scales::comma(total, accuracy = 1)}")
+  )
+
+# Create treemap with annotations
+treemap(
+  treemap_data,
+  index = c("main_category", "sub_category"),
+  vSize = "total",
+  vColor = "main_category",
+  type = "categorical",
+  palette = "Set2",
+  title = "Budget Distribution Treemap",
+  fontsize.labels = c(14, 10),
+  fontcolor.labels = c("white", "black"),
+  fontface.labels = c(2, 1),
+  bg.labels = c("transparent"),
+  align.labels = list(c("center", "center"), c("center", "center")),
+  overlap.labels = 0.5,
+  border.col = c("white", "gray90"),
+  border.lwds = c(4, 2)
+)
+```
+
+::: footer
+Data from: @massari_2025
+:::
+
+## Budget Summary Table {.center .smallest}
+
+```{r}
+# Create detailed budget table with grouping and totals
+budget_table_data <- application_budget_long |>
+  group_by(main_category, sub_category) |>
+  summarise(total_chf = sum(amount), .groups = "drop") |>
+  group_by(main_category) |>
+  mutate(
+    category_total = sum(total_chf),
+    percent_of_category = total_chf / category_total * 100
+  ) |>
+  ungroup() |>
+  arrange(desc(category_total), desc(total_chf))
+
+budget_table_data |>
+  gt(groupname_col = "main_category") |>
+  tab_header(
+    title = "Detailed Budget Breakdown",
+    subtitle = "Data of 78/95 projects"
+  ) |>
+  cols_label(
+    sub_category = "Subcategory",
+    total_chf = "Amount (CHF)",
+    percent_of_category = "% of Category"
+  ) |>
+  # Add summary rows for each group
+  summary_rows(
+    groups = everything(),
+    columns = total_chf,
+    fns = list(
+      "Category Total" = ~sum(., na.rm = TRUE)
+    ),
+    fmt = ~fmt_number(., decimals = 0, use_seps = TRUE)
+  ) |>
+  # Add grand total row
+  grand_summary_rows(
+    columns = total_chf,
+    fns = list(
+      "Grand Total" = ~sum(., na.rm = TRUE)
+    ),
+    fmt = ~fmt_number(., decimals = 0, use_seps = TRUE)
+  ) |>
+  fmt_number(
+    columns = total_chf,
+    decimals = 0,
+    use_seps = TRUE
+  ) |>
+  fmt_percent(
+    columns = percent_of_category,
+    decimals = 1,
+    scale_values = FALSE
+  ) |>
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_row_groups()
+  ) |>
+  tab_style(
+    style = cell_fill(color = "gray95"),
+    locations = cells_body(columns = everything(), rows = percent_of_category > 50)
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "lightblue"),
+      cell_text(weight = "bold")
+    ),
+    locations = cells_summary()
+  ) |>
+  tab_style(
+    style = list(
+      cell_fill(color = "steelblue"),
+      cell_text(weight = "bold", color = "white")
+    ),
+    locations = cells_grand_summary()
+  ) |>
+  tab_options(
+    table.font.size = px(11),
+    heading.title.font.size = px(16),
+    heading.subtitle.font.size = px(12),
+    row_group.background.color = "lightblue",
+    row_group.font.weight = "bold",
+    summary_row.background.color = "lightblue"
+  ) |>
+  cols_hide(columns = category_total)
+```
+
+::: footer
+Data from: @massari_2025
+:::
+
+
+## Product: A public website {.dark-slide .center}
+
+::: learn-more
+[global-health-engineering.github.io/ethord/](https://global-health-engineering.github.io/ethord/)
+:::
+
+```{=html}
+<iframe src="https://global-health-engineering.github.io/ethord/" width="100%" height="500" style="border:2px solid #123233;" title="ethord data package website"></iframe>
+```
+
+::: footer
+<https://global-health-engineering.github.io/ethord/>
+:::
+
+# Future Possibilities {.center background-image="img/eth-kolloquium/silhouette.jpg" background-color="#000000"}
+
+## {.dark-slide .center}
+
+How could we make such administrative data "open by default" in the future?
+
+## Swiss Open by Default Policy Framework {.dark-slide .center .smaller}
+
+**Federal Foundation**: Open Government Data Strategy 2019-2023 [@swiss_ogd_strategy_2019] established "open by default" principle for all federal agencies
+
+**Legal Mandate**: Federal Act EMBAG Article 10 [@embag_2024] legally requires open data publication [unless restricted by privacy or security]{.highlight-gold}
+
+**Implementation**: OGD Masterplan 2024-2027 [@ogd_masterplan_2024] operationalizes through:
+
+- Progressive data opening with documented exceptions
+- Quality standards aligned with FAIR principles [@fair_principles]
+- Centralized coordination via opendata.swiss [@opendata_swiss]
+- Standardized metadata using DCAT-AP CH [@dcat_ap_ch]
+
+::: {.notes}
+Speaker notes: Switzerland is unique in having legally mandated open by default - not just policy recommendations. This creates accountability and consistency across agencies. The FAIR alignment shows how government OGD principles directly apply to research data contexts.
+:::
+
+## Thanks! {.center}
+
+Slides at:
+
+::: learn-more
+
+:::
+
+Slides created via revealjs and Quarto: <https://quarto.org/docs/presentations/revealjs/>
+
+Data available at: @massari_2025
+
+
+## References {.dark-slide .center}
+
+
+
