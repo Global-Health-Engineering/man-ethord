@@ -40,6 +40,51 @@ The `ethord` package contains **11 datasets** organized into three main categori
      - International activities and equity considerations
      - Environmental impact and endangered species
      - AI ethics considerations
+     
+```{r dataset-comparison}
+#| message: false
+
+# Compare dataset sizes
+cat("=== Dataset Dimensions ===\n")
+cat("application_metadata rows:", nrow(application_metadata), "\n")
+cat("application_ethics rows:", nrow(application_ethics), "\n")
+cat("application_budget rows:", nrow(application_budget), "\n\n")
+
+# Count unique project IDs in each dataset
+cat("=== Unique Project IDs ===\n")
+cat("application_metadata:", n_distinct(application_metadata$project_id), "unique projects\n")
+cat("application_ethics:", n_distinct(application_ethics$project_id), "unique projects\n")
+cat("application_budget:", n_distinct(application_budget$project_id), "unique projects\n\n")
+
+# Identify projects with multiple budget entries
+budget_counts <- application_budget |>
+  count(project_id, name = "n_rows") |>
+  arrange(desc(n_rows))
+
+cat("=== Projects with Multiple Budget Entries ===\n")
+multi_budget <- budget_counts |>
+  filter(n_rows > 1)
+print(multi_budget)
+
+cat("\n=== Details of Multi-Phase Projects ===\n")
+application_budget |>
+  filter(project_id %in% multi_budget$project_id) |>
+  select(project_id, phase, total_budget_total_costs) |>
+  arrange(project_id, phase) |>
+  print()
+```
+
+**Finding**: The discrepancy exists because **three projects have multi-phase budgets**:
+
+1. **ESTABLISH/OPEM**: Phase 1 (CHF 1,500,000) + Phase 2 (CHF 800,000)
+2. **ESTABLISH/PREMISE**: Phase 1 (CHF 644,100) + Phase 2 (CHF 648,000)
+3. **EXPLORE/OPENWASHDATA**: Two Phase 1 entries (CHF 149,990 and CHF 150,000)
+
+This results in:
+- **75 unique projects** across all three datasets
+- **76 rows** in `application_metadata` and `application_ethics` (one row per project, plus likely one additional entry)
+- **78 rows** in `application_budget` (75 projects + 3 additional phase entries)
+
 
 4. **`application_metadata_applicants`** (113 co-applicants × 7 variables)
    - Co-applicant information by project
