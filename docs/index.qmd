@@ -49,6 +49,12 @@ library(ethord)
 
 # Introduction
 
+::: {.callout-note}
+## Disclaimer
+
+This manuscript presents an analysis of ETH Board Open Research Data (ORD) Program metadata and is currently a **work in progress**. It serves as an internal reporting tool during the data collection and validation phase. The data is not yet complete and has not been fully validated. Results and interpretations should be considered preliminary and subject to revision as additional project data becomes available and quality checks are completed.
+:::
+
 ## ETH Domain Open Research Data (ORD) Program
 
 The ETH Domain Open Research Data (ORD) Program represents a significant investment in advancing open research practices across Swiss federal institutions. This report provides a draft analysis of data extracted from 76 out 96 funded projects, focusing on the program's structure, budget distribution, and metadata accessibility.
